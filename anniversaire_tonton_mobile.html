@@ -1,412 +1,499 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>NSI – Repérer un harceleur dans un réseau</title>
-  <style>
-    :root {
-      --bg: #f4f6fb;
-      --card: #ffffff;
-      --accent: #e53935;
-      --accent-soft: #ffebee;
-      --text: #222;
-      --muted: #666;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+<title>Physique-Chimie Terminale - Le Livre BD</title>
 
-    body {
-      background: radial-gradient(circle at top, #ffebee 0, #f4f6fb 40%, #f4f6fb 100%);
-      color: var(--text);
-      padding: 20px;
-    }
+<style>
 
-    header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    header h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.3rem;
-    }
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#e7edf5;
+    color:#222;
+}
 
-    header p {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
+/* HEADER */
 
-    .container {
-      max-width: 1000px;
-      margin: 0 auto 40px auto;
-    }
+header{
+    background:#123f7a;
+    color:white;
+    padding:20px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
 
-    .intro-box {
-      background: var(--accent-soft);
-      border-left: 4px solid var(--accent);
-      padding: 16px 18px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
+header h1{
+    font-size:2.2rem;
+}
 
-    .intro-box strong {
-      color: var(--accent);
-    }
+header p{
+    margin-top:10px;
+}
 
-    .a4 {
-      background: var(--card);
-      width: 800px;
-      max-width: 100%;
-      margin: 20px auto;
-      padding: 24px 26px;
-      border-radius: 8px;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-      position: relative;
-    }
+/* MENU */
 
-    .a4::after {
-      content: "A4";
-      position: absolute;
-      top: 10px;
-      right: 14px;
-      font-size: 0.7rem;
-      color: var(--muted);
-      opacity: 0.5;
-    }
+nav{
+    background:white;
+    padding:15px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+    box-shadow:0 2px 5px rgba(0,0,0,.1);
+}
 
-    .a4 h2 {
-      font-size: 1.3rem;
-      margin-bottom: 10px;
-      color: var(--accent);
-    }
+nav button{
+    background:#123f7a;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
 
-    .a4 h3 {
-      font-size: 1.05rem;
-      margin: 14px 0 6px;
-    }
+nav button:hover{
+    background:#0b2e5c;
+}
 
-    .a4 p {
-      margin-bottom: 8px;
-      line-height: 1.4;
-      font-size: 0.95rem;
-    }
+/* LIVRE */
 
-    .schema {
-      background: #fafafa;
-      border: 1px dashed #ccc;
-      border-radius: 6px;
-      padding: 10px 12px;
-      margin: 10px 0;
-      font-family: "Courier New", monospace;
-      font-size: 0.9rem;
-      white-space: pre;
-      overflow-x: auto;
-    }
+.book{
+    max-width:1400px;
+    margin:auto;
+    padding:30px;
+}
 
-    .highlight {
-      background: #fffde7;
-      border-left: 3px solid #fdd835;
-      padding: 8px 10px;
-      border-radius: 4px;
-      margin: 8px 0;
-      font-size: 0.9rem;
-    }
+.page{
+    display:none;
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 5px 20px rgba(0,0,0,.15);
+    animation:fade .4s;
+}
 
-    .tag {
-      display: inline-block;
-      background: #e3f2fd;
-      color: #1565c0;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      margin: 2px 4px 2px 0;
-    }
+.page.active{
+    display:block;
+}
 
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 10px 0;
-      font-size: 0.9rem;
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateX(30px);
     }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
 
-    .table th,
-    .table td {
-      border: 1px solid #ddd;
-      padding: 6px 8px;
-      text-align: left;
-    }
+/* TITRE CHAPITRE */
 
-    .table th {
-      background: #f1f1f1;
-    }
+.chapter-title{
+    background:#123f7a;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
 
-    .footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 20px;
-    }
+.chapter-title h2{
+    font-size:2rem;
+}
 
-    @media print {
-      body {
-        background: #fff;
-        padding: 0;
-      }
-      .a4 {
-        box-shadow: none;
-        border-radius: 0;
-        margin: 0 auto 10mm auto;
-        page-break-after: always;
-      }
-      header, .intro-box, .footer {
-        display: none;
-      }
-    }
-  </style>
+/* PERSONNAGES */
+
+.characters{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.character{
+    background:#eef4ff;
+    border-left:6px solid #123f7a;
+    padding:15px;
+    border-radius:10px;
+}
+
+/* BD */
+
+.comic{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:20px;
+}
+
+.panel{
+    border:3px solid #ddd;
+    border-radius:10px;
+    overflow:hidden;
+    background:white;
+}
+
+.panel-header{
+    background:#123f7a;
+    color:white;
+    padding:10px;
+    font-weight:bold;
+}
+
+.panel-content{
+    padding:15px;
+}
+
+.speech{
+    background:#f5f5f5;
+    border-radius:20px;
+    padding:15px;
+    margin:10px 0;
+    position:relative;
+}
+
+.prof{
+    border-left:6px solid #4a90e2;
+}
+
+.student{
+    border-left:6px solid #ff9f43;
+}
+
+.formula{
+    background:#eef8ff;
+    text-align:center;
+    font-size:1.3rem;
+    padding:15px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.diagram{
+    height:180px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#fafafa;
+    border:2px dashed #bbb;
+    margin-top:10px;
+    border-radius:10px;
+    font-size:1.2rem;
+}
+
+/* RESUME */
+
+.summary{
+    margin-top:25px;
+    background:#fff8d8;
+    border-left:8px solid #f4c542;
+    padding:20px;
+    border-radius:10px;
+}
+
+/* NAVIGATION */
+
+.controls{
+    margin-top:25px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+.controls button{
+    background:#123f7a;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+/* DARK MODE */
+
+.dark{
+    background:#111;
+    color:white;
+}
+
+.dark .page{
+    background:#1d1d1d;
+    color:white;
+}
+
+.dark .speech{
+    background:#2a2a2a;
+}
+
+.dark nav{
+    background:#1b1b1b;
+}
+
+</style>
 </head>
+
 <body>
-  <header>
-    <h1>Repérer un harceleur dans un réseau</h1>
-    <p>Étude de cas – NSI, réseaux, données, graphes et algorithmes</p>
-  </header>
 
-  <div class="container">
-    <div class="intro-box">
-      <p><strong>Problématique :</strong> Lorsqu’un élève reçoit des messages de harcèlement sur un réseau social ou un ENT, peut‑on identifier l’auteur grâce aux données techniques (IP, métadonnées, graphes de communication) tout en respectant la vie privée ?</p>
-    </div>
+<header>
+    <h1>📖 Physique-Chimie Terminale Spécialité</h1>
+    <p>Le Livre BD Interactif</p>
+</header>
 
-    <!-- A4 1 : Cas concret -->
-    <section class="a4">
-      <h2>I. Cas concret : harcèlement dans un lycée</h2>
-      <p>Un élève, que nous appellerons <strong>Samir</strong>, reçoit des messages anonymes insultants sur la messagerie interne du lycée (ENT). Les messages viennent d’un compte créé sous un faux nom :</p>
-      <p><strong>« DarkWolf92 »</strong></p>
-      <p>Le lycée veut savoir si l’auteur est un élève connecté au réseau interne.</p>
+<nav>
+    <button onclick="showPage(0)">Accueil</button>
+    <button onclick="showPage(1)">Gravitation</button>
+    <button onclick="showPage(2)">Kepler</button>
+    <button onclick="showPage(3)">Électrolyse</button>
+    <button onclick="showPage(4)">Thermodynamique</button>
+    <button onclick="toggleDark()">🌙 Mode sombre</button>
+</nav>
 
-      <h3>Comment circule un message ?</h3>
-      <p>Quand DarkWolf92 envoie un message à Samir :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li>le message part de son ordinateur ;</li>
-        <li>il passe par le réseau du lycée ;</li>
-        <li>il arrive sur le serveur ENT ;</li>
-        <li>puis il est transmis au compte de Samir.</li>
-      </ul>
+<div class="book">
 
-      <div class="schema">
-DARKWOLF92
-    │
-    ▼
-  RÉSEAU DU LYCÉE
-    │
-    ▼
- SERVEUR ENT
-    │
-    ▼
-   SAMIR
-      </div>
+<!-- ACCUEIL -->
 
-      <p>À chaque étape, des <strong>métadonnées</strong> sont enregistrées : adresse IP, heure, identifiant de session.</p>
+<section class="page active">
 
-      <span class="tag">Réseaux</span>
-      <span class="tag">Serveurs</span>
-      <span class="tag">Métadonnées</span>
-    </section>
+<div class="chapter-title">
+<h2>Bienvenue</h2>
+</div>
 
-    <!-- A4 2 : IP et salle -->
-    <section class="a4">
-      <h2>II. Étape 1 : l’adresse IP comme indice</h2>
-      <p>Les administrateurs du réseau consultent les journaux (logs) du serveur ENT. Ils voient que les messages de DarkWolf92 ont été envoyés depuis l’adresse IP :</p>
-      <p><strong>10.0.12.45</strong></p>
+<div class="characters">
 
-      <p>Dans le lycée, chaque salle a une plage d’adresses IP :</p>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Salle</th>
-            <th>Plage d’IP</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>101</td>
-            <td>10.0.10.x</td>
-          </tr>
-          <tr>
-            <td>102</td>
-            <td>10.0.11.x</td>
-          </tr>
-          <tr>
-            <td>103</td>
-            <td>10.0.12.x</td>
-          </tr>
-          <tr>
-            <td>104</td>
-            <td>10.0.13.x</td>
-          </tr>
-        </tbody>
-      </table>
+<div class="character">
+<h3>👨‍🏫 Professeur Martin</h3>
+<p>Guide scientifique du livre.</p>
+</div>
 
-      <p>L’adresse <strong>10.0.12.45</strong> correspond donc à la <strong>salle 103</strong>.</p>
+<div class="character">
+<h3>👦 Léo</h3>
+<p>Passionné de sciences.</p>
+</div>
 
-      <div class="schema">
-IP 10.0.12.45  →  Salle 103
-      </div>
+<div class="character">
+<h3>👧 Maëlys</h3>
+<p>Pose les questions importantes.</p>
+</div>
 
-      <div class="highlight">
-        Même si le compte est anonyme, l’adresse IP permet de savoir d’où vient le message dans le réseau.
-      </div>
+<div class="character">
+<h3>👦 Hugo</h3>
+<p>Adore les expériences.</p>
+</div>
 
-      <span class="tag">Adresses IP</span>
-      <span class="tag">Routage</span>
-    </section>
+</div>
 
-    <!-- A4 3 : Temps + emploi du temps -->
-    <section class="a4">
-      <h2>III. Étape 2 : analyse temporelle</h2>
-      <p>Les messages de harcèlement ont été envoyés aux heures suivantes :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li>8h42</li>
-        <li>8h43</li>
-        <li>8h44</li>
-        <li>8h46</li>
-      </ul>
+<p>
+Chaque chapitre est présenté sous forme de BD interactive.
+</p>
 
-      <p>On regarde l’emploi du temps de la salle 103 :</p>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Heure</th>
-            <th>Classe présente</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>8h–10h</td>
-            <td>Terminale NSI</td>
-          </tr>
-        </tbody>
-      </table>
+</section>
 
-      <p>On peut donc en déduire que le harceleur est très probablement un élève de <strong>Terminale NSI</strong> présent en salle 103 à ce moment‑là.</p>
+<!-- GRAVITATION -->
 
-      <div class="highlight">
-        En combinant l’adresse IP et l’horaire, on réduit fortement le nombre de suspects.
-      </div>
+<section class="page">
 
-      <span class="tag">Horodatage</span>
-      <span class="tag">Logs</span>
-    </section>
+<div class="chapter-title">
+<h2>Chapitre : Gravitation Universelle</h2>
+</div>
 
-    <!-- A4 4 : Graphe de communication -->
-    <section class="a4">
-      <h2>IV. Étape 3 : graphe de communication</h2>
-      <p>On représente les échanges de messages sous forme de <strong>graphe</strong> :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li>Chaque élève = un nœud.</li>
-        <li>Chaque message = une flèche (arête orientée).</li>
-        <li>Les messages agressifs = flèches rouges.</li>
-      </ul>
+<div class="comic">
 
-      <div class="schema">
-A  →  Samir   (rouge)
-B  →  Samir   (rouge)
-C  →  Samir   (rouge)
-D  →  Samir   (gris)
-      </div>
+<div class="panel">
+<div class="panel-header">Discussion</div>
 
-      <p>On remarque que :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li>l’élève A envoie beaucoup de messages agressifs à Samir ;</li>
-        <li>ces messages sont très rapprochés dans le temps ;</li>
-        <li>ils viennent tous de la même IP (10.0.12.45).</li>
-      </ul>
+<div class="panel-content">
 
-      <div class="highlight">
-        Dans le graphe, A apparaît comme le principal harceleur : il envoie de nombreuses flèches rouges vers Samir.
-      </div>
+<div class="speech student">
+Pourquoi la Lune ne tombe-t-elle pas sur la Terre ?
+</div>
 
-      <span class="tag">Graphes</span>
-      <span class="tag">Modélisation</span>
-    </section>
+<div class="speech prof">
+Parce qu'une force gravitationnelle l'attire tout en maintenant son mouvement orbital.
+</div>
 
-    <!-- A4 5 : Algorithme simple -->
-    <section class="a4">
-      <h2>V. Étape 4 : algorithme de détection</h2>
-      <p>On applique un algorithme simple pour repérer un comportement de harcèlement :</p>
-      <p><strong>Idée :</strong> si un utilisateur envoie beaucoup de messages agressifs à la même personne en peu de temps, il devient suspect.</p>
+<div class="formula">
+F = G × (m₁m₂/r²)
+</div>
 
-      <div class="schema">
-Pour chaque utilisateur U :
-    compter les messages agressifs envoyés vers Samir
-    si ce nombre > 3 en moins de 5 minutes :
-        marquer U comme suspect
-      </div>
+</div>
+</div>
 
-      <p>Résultat de l’algorithme :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li>U = A → suspect principal ;</li>
-        <li>U = B, C, D → en dessous du seuil.</li>
-      </ul>
+<div class="panel">
+<div class="panel-header">Schéma</div>
 
-      <div class="highlight">
-        Cet algorithme est simple, mais il montre comment on peut utiliser des données et des seuils pour repérer un comportement anormal.
-      </div>
+<div class="panel-content">
 
-      <span class="tag">Algorithmes</span>
-      <span class="tag">Conditions</span>
-      <span class="tag">Boucles</span>
-    </section>
+<div class="diagram">
+🌍 ← Gravitation → 🌙
+</div>
 
-    <!-- A4 6 : Confirmation + conclusion -->
-    <section class="a4">
-      <h2>VI. Étape 5 : confirmation technique</h2>
-      <p>Les administrateurs vérifient les journaux du serveur ENT :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li>l’utilisateur A s’est connecté à 8h40 ;</li>
-        <li>depuis l’IP 10.0.12.45 ;</li>
-        <li>le compte « DarkWolf92 » a été créé à 8h41 ;</li>
-        <li>les messages ont commencé à 8h42.</li>
-      </ul>
+</div>
+</div>
 
-      <p>Les données techniques confirment que :</p>
-      <p><strong>A = DarkWolf92</strong></p>
+</div>
 
-      <h3>VII. Conclusion du cas</h3>
-      <p>Grâce aux notions de NSI :</p>
-      <ul style="margin-left:18px; font-size:0.95rem; line-height:1.4;">
-        <li><strong>Réseaux</strong> : adresses IP, serveurs, ENT ;</li>
-        <li><strong>Données</strong> : logs, horodatage, métadonnées ;</li>
-        <li><strong>Graphes</strong> : représentation des échanges ;</li>
-        <li><strong>Algorithmes</strong> : détection de comportements anormaux ;</li>
-      </ul>
-      <p>… on a pu identifier un harceleur qui pensait être anonyme.</p>
+</section>
 
-      <div class="highlight">
-        L’informatique ne sert pas seulement à transporter des messages : elle permet aussi de protéger les utilisateurs et de repérer des comportements dangereux, à condition d’être utilisée avec prudence et dans le respect de la vie privée.
-      </div>
+<!-- KEPLER -->
 
-      <h3>Notions NSI mobilisées</h3>
-      <div class="schema">
-MON SUJET
-      │
- ┌────┼────┐
- │    │    │
-RÉSEAUX DONNÉES ALGORITHMES
- │    │    │
-IP  LOGS  GRAPHES
-      │
-  LUTTE CONTRE
-  LE HARCÈLEMENT
-      </div>
-    </section>
-  </div>
+<section class="page">
 
-  <div class="footer">
-    Site simple pour illustrer un exposé de Grand Oral NSI – HTML + CSS intégrés.
-  </div>
+<div class="chapter-title">
+<h2>Chapitre : Lois de Kepler</h2>
+</div>
+
+<div class="comic">
+
+<div class="panel">
+<div class="panel-header">1ère loi</div>
+
+<div class="panel-content">
+
+<div class="speech student">
+Pourquoi l'orbite est-elle une ellipse ?
+</div>
+
+<div class="speech prof">
+C'est ce qu'ont montré les observations de Kepler.
+</div>
+
+<div class="diagram">
+☀️ Ellipse 🪐
+</div>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- ELECTROLYSE -->
+
+<section class="page">
+
+<div class="chapter-title">
+<h2>Chapitre : Électrolyse</h2>
+</div>
+
+<div class="comic">
+
+<div class="panel">
+
+<div class="panel-header">
+Expérience
+</div>
+
+<div class="panel-content">
+
+<div class="speech student">
+Comment décomposer l'eau ?
+</div>
+
+<div class="speech prof">
+Grâce au courant électrique.
+</div>
+
+<div class="formula">
+2H₂O → 2H₂ + O₂
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- THERMO -->
+
+<section class="page">
+
+<div class="chapter-title">
+<h2>Chapitre : Thermodynamique</h2>
+</div>
+
+<div class="comic">
+
+<div class="panel">
+
+<div class="panel-header">
+Premier principe
+</div>
+
+<div class="panel-content">
+
+<div class="speech student">
+L'énergie peut-elle disparaître ?
+</div>
+
+<div class="speech prof">
+Non. Elle se conserve.
+</div>
+
+<div class="formula">
+ΔU = Q + W
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="controls">
+<button onclick="previousPage()">⬅ Précédent</button>
+<button onclick="nextPage()">Suivant ➡</button>
+</div>
+
+</div>
+
+<script>
+
+let currentPage = 0;
+
+const pages = document.querySelectorAll('.page');
+
+function showPage(index){
+
+pages.forEach(page=>{
+page.classList.remove('active');
+});
+
+pages[index].classList.add('active');
+
+currentPage = index;
+}
+
+function nextPage(){
+
+if(currentPage < pages.length-1){
+showPage(currentPage+1);
+}
+}
+
+function previousPage(){
+
+if(currentPage > 0){
+showPage(currentPage-1);
+}
+}
+
+function toggleDark(){
+document.body.classList.toggle('dark');
+}
+
+</script>
+
 </body>
 </html>
